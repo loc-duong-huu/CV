@@ -8,12 +8,15 @@ class ClockWatcher extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {date: new Date()};
+    this.dateUTC = props.utc;
+    this.canvasID = props.id;
+    var date = new Date();
+    this.state = {date: new Date(date.toLocaleString(this.dateUTC, { timeZone: "UTC" })), running: true};
   }
 
   componentDidMount() {
     // Draw clock watcher
-    this.canvas = document.getElementById("canvas");
+    this.canvas = document.getElementById("canvas" + this.canvasID);
     this.ctx = this.canvas.getContext("2d");
     this.radius = this.canvas.height / 2;
     this.ctx.translate(this.radius, this.radius);
@@ -30,10 +33,14 @@ class ClockWatcher extends Component {
   }
 
   tick() {
-    this.setState({
-      date: new Date()
-    });
-    this.drawClock(this.state.date);
+    if (this.state.running)
+    {
+      var date = new Date();
+      this.setState({
+        date: new Date(date.toLocaleString(this.dateUTC, { timeZone: "UTC" })), running: true
+      });
+      this.drawClock(this.state.date);
+    }
   }
 
   // Functions re-draw clock watcher
@@ -111,10 +118,27 @@ class ClockWatcher extends Component {
       ctx.rotate(-pos);
   }
 
+  stopClockWatcher() {
+    this.setState({running: false});
+  }
+
+  resumeClockWatcher() {
+    this.setState({running: true});
+  }
+
   render() {
+    console.log(this.state.running);
     return (
       <div>
-        <canvas id="canvas" width="400" height="400" style={{backgroundColor:'#333'}}></canvas>
+        <div>
+          <canvas id={`canvas` + this.canvasID} width="400" height="400" style={{backgroundColor:'#333'}}></canvas>
+        </div>
+        <div>
+        <button id="resume" onClick={() => this.resumeClockWatcher()}>Resume Clock</button>
+        </div>
+        <div>
+          <button id="stop" onClick={() => this.stopClockWatcher()}>Stop Clock</button>
+        </div>
       </div>
     );
   }

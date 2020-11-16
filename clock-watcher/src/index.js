@@ -6,10 +6,9 @@ import ClockWatcher from './components/clock-watcher.js';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  // <React.StrictMode>
-  //   <App />
-  // </React.StrictMode>,
-  <ClockWatcher />,
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
   document.getElementById('root')
 );
 

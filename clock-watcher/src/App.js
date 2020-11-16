@@ -1,10 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
+import ClockWatcher from './components/clock-watcher.js'
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -17,7 +18,11 @@ function App() {
         >
           Learn React
         </a>
-      </header>
+      </header> */}
+
+<ClockWatcher utc={'en-US'} id={'1'} />
+<ClockWatcher utc={'en-US'} id={'2'} />
+<ClockWatcher utc={'en-US'} id={'3'} />
     </div>
   );
 }
