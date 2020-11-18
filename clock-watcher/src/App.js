@@ -20,9 +20,11 @@ function App() {
         </a>
       </header> */}
 
-<ClockWatcher utc={'en-US'} id={'1'} />
-<ClockWatcher utc={'en-US'} id={'2'} />
-<ClockWatcher utc={'en-US'} id={'3'} />
+<ClockWatcher utc={'Asia/Singapore'} id={'1'} />
+<br />
+<ClockWatcher utc={'America/Bahia'} id={'2'} />
+<br />
+<ClockWatcher utc={'Indian/Maldives'} id={'3'} />
     </div>
   );
 }

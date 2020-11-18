@@ -11,7 +11,7 @@ class ClockWatcher extends Component {
     this.dateUTC = props.utc;
     this.canvasID = props.id;
     var date = new Date();
-    this.state = {date: new Date(date.toLocaleString(this.dateUTC, { timeZone: "UTC" })), running: true};
+    this.state = {date: new Date(date.toLocaleString('en-US', { timeZone: this.dateUTC })), running: true, showClock: true, afterClickShowHide: false};
   }
 
   componentDidMount() {
@@ -21,6 +21,8 @@ class ClockWatcher extends Component {
     this.radius = this.canvas.height / 2;
     this.ctx.translate(this.radius, this.radius);
     this.radius = this.radius * 0.90;
+
+    this.setState({firstRun: false});
 
     this.timerID = setInterval(
       () => this.tick(),
@@ -32,13 +34,27 @@ class ClockWatcher extends Component {
     clearInterval(this.timerID);
   }
 
+  componentDidUpdate() {
+    if (this.state.afterClickShowHide && this.state.showClock)
+    {
+      // Draw clock watcher
+      this.canvas = document.getElementById("canvas" + this.canvasID);
+      this.ctx = this.canvas.getContext("2d");
+      this.radius = this.canvas.height / 2;
+      this.ctx.translate(this.radius, this.radius);
+      this.radius = this.radius * 0.90;
+      this.setState({afterClickShowHide: false});
+    }
+  }
+
   tick() {
     if (this.state.running)
     {
       var date = new Date();
       this.setState({
-        date: new Date(date.toLocaleString(this.dateUTC, { timeZone: "UTC" })), running: true
+        date: new Date(date.toLocaleString('en-US', { timeZone: this.dateUTC })), running: true
       });
+
       this.drawClock(this.state.date);
     }
   }
@@ -126,18 +142,43 @@ class ClockWatcher extends Component {
     this.setState({running: true});
   }
 
+  showToday() {
+    alert("Hom nay la: " + this.state.date.toString());
+  }
+
+  showHide() {
+    this.setState({afterClickShowHide: true});
+    if (this.state.showClock) this.setState({showClock: false});
+    else
+    {
+      
+
+    this.setState({showClock: true});
+    } 
+  }
+
   render() {
     console.log(this.state.running);
     return (
       <div>
+        {
+          this.state.showClock ? 
+            <div>
+              <canvas id={`canvas` + this.canvasID} width="400" height="400" style={{backgroundColor:'#333'}}></canvas>
+            </div> : 
+            <div></div>
+        }
         <div>
-          <canvas id={`canvas` + this.canvasID} width="400" height="400" style={{backgroundColor:'#333'}}></canvas>
-        </div>
-        <div>
-        <button id="resume" onClick={() => this.resumeClockWatcher()}>Resume Clock</button>
+          <button id="resume" onClick={() => this.resumeClockWatcher()}>Resume Clock</button>
         </div>
         <div>
           <button id="stop" onClick={() => this.stopClockWatcher()}>Stop Clock</button>
+        </div>
+        <div>
+          <button id="xuLySuKien" onClick={() => this.showToday()}>Show Today</button>
+        </div>
+        <div>
+          <button id={`showHidebtn` + this.canvasID} onClick={() => this.showHide()}>{this.state.showClock ? "Hide" : "Show"}</button>
         </div>
       </div>
     );
