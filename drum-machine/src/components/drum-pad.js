@@ -68,6 +68,7 @@ class DrumPad extends React.Component {
       this.activatePad();
       setTimeout(() => this.activatePad(), 100);
       this.props.updateDisplay(this.props.clipId.replace(/-/g, ' '));
+      this.props.padTrigger(this.props.keyTrigger);
     }
     render() {
       return (

@@ -6,6 +6,11 @@ class PadBank extends React.Component {
     constructor(props) {
       super(props);
     }
+
+    addToListTrigger(id) {
+      this.props.listTrigger.push(id);
+    }
+
     render() {
       let padBank;
       if (this.props.power) {
@@ -18,6 +23,7 @@ class PadBank extends React.Component {
               keyTrigger={padBankArr[i].keyTrigger}
               power={this.props.power}
               updateDisplay={this.props.updateDisplay}
+              padTrigger={(id) => this.addToListTrigger(id)}
             />
           );
         });

@@ -176,6 +176,28 @@ class App extends React.Component {
       display: String.fromCharCode(160)
     });
   }
+
+  lst = [];
+  i = 0;
+  PlayAll() {
+    if (this.i < this.lst.length) {
+      console.log(this.lst[this.i].toString());
+      this.playSound(this.lst[this.i].toString());
+      this.i++;
+    }
+    setTimeout(() =>
+    {
+      this.PlayAll();
+      }, 1000);
+  }
+
+
+  playSound(id) {
+    const sound = document.getElementById(id);
+    sound.currentTime = 0;
+    sound.play();
+  }
+
   render() {
     const powerSlider = this.state.power
       ? {
@@ -205,6 +227,7 @@ class App extends React.Component {
           currentPadBank={this.state.currentPadBank}
           power={this.state.power}
           updateDisplay={this.displayClipName}
+          listTrigger={this.lst}
         />
 
         <div className='logo'>
@@ -236,6 +259,9 @@ class App extends React.Component {
               <div className='inner' style={bankSlider} />
             </div>
           </div>
+        </div>
+        <div>
+          <button id="playAll" onClick={() => this.PlayAll()}>Play All</button>
         </div>
       </div>
     );
